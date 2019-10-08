@@ -1,7 +1,7 @@
 <br>
 <br>
 <div style="text-align:center">
-<img src="src/assets/poketrade_purple.png" alt="drawing" width="100"/>
+<img src="public/images/poketrade_purple.png" alt="drawing" width="100"/>
 </div>
 
 <div style="text-align:center"></div>
