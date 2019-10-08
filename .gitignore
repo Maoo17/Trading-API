@@ -1,0 +1,8 @@
+node_modules
+/db/texts.sqlite
+.env
+package-lock.json
+.nyc_output/
+.nyc_output/index.json
+coverage
+test.sqlite

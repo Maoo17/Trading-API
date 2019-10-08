@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="sv">
+
+<head>
+    <meta charset="utf-8">
+    <title>API</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div class="borderline"></div>
+    <div class="flex-row">
+        <nav>
+            <div class="vertical-menu">
+                <div class="following-nav">
+                    <a href="#intro">How to use</a>
+                    <a href="#register">Register</a>
+                    <a href="#login">Login</a>
+                    <a href="#users">Users</a>
+                    <a href="#reports">Reports</a>
+                    <a href="#top">
+                        <div class="tooltip top">
+                            <img class="top-image" src="/images/takeMeToTheTop.png" alt="">
+                            <span class="tooltiptext">Click me to get to the top!</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="article">
+            <h1 id="top" class="head-title">Trading Platform API</h1>
+            This is an API for the project "Trading Platform".
+            <hr>
+            <article id="intro" class="article">
+                <div class="bottom-space"></div>
+            </article>
+            <article id="register" class="article">
+                <h1>Register</h1>
+                <h3>Register a user</h3>
+                <div class="routefield">
+                    POST /register
+                </div>
+                <h4>Result</h4>
+                <div class="codefield">
+                    <code><pre>
+{
+    "message": 'Registered user!'
+}</pre></code>
+                </div>
+            </article>
+            <article id="login" class="article">
+                <h1>Login</h1>
+                <h3>Login as a registered user</h3>
+                <div class="routefield">POST /login</div>
+                <h4>Parameters</h4>
+                <pre class="codefield">
+    firstName
+    lastName
+    birthday
+    email
+    password
+                </pre>
+                <h4>Result</h4>
+                <pre class="codefield">
+    {
+        "message": 'Login sucessfull!'
+    }
+</pre>
+                <h4>Error</h4>
+                <pre class="codefield">
+    {
+        "message": 'Email or password is wrong.'
+    }
+</pre>
+                <p><b>OBS!</b> The token expires after 1h</p>
+            </article>
+            <article id="users" class="article">
+                <h1>Users</h1>
+                <h3>List all users</h3>
+                <div class="routefield">
+                    GET /users
+                </div>
+                <h4>Result</h4>
+                <div class="codefield">
+                    <code>
+<pre>
+    {
+        "data": [
+            {
+                "firstName": "Test",
+                "lastName": "Testsson",
+                "birthday": "1998-04-23",
+                "email": "test@gmail.com",
+                "password": "$2b$10$uabp8lGHwdfgdfgdfgdfgdfgdfgdfgdfgdfgfdg"
+            },
+            {
+                "firstName": "John",
+                "lastName": "Doe",
+                "birthday": "1993-02-12",
+                "email": "johndoe@gmail.com",
+                "password": "$2b$10$uabp8lGHwdfgdfgdfgdfgdfgdfgdfgdfgdfgfdg"
+            }
+        ]
+    }</pre>
+            </code>
+                </div>
+            </article>
+            <article id="reports" class="article">
+                <h1>Reports</h1>
+                <h3>Get all reports (requires webtoken via login)</h3>
+                <div class="routefield">GET /reports</div>
+                <h4>Result</h4>
+                <pre class="codefield">
+    {
+        "data": {
+            "week": 1,
+            "reportText": "npm run build, Run your tests, npm run test Lints and fixes files, npm run lint"
+        }
+    }
+                    </pre>
+                <h4>Errors</h4>
+                <pre class="codefield">
+    {
+        "Following error occured": "Invalid token"
+    }           
+</pre>
+                <h3>Get specific report (requires webtoken via login)</h3>
+                <div class="routefield">GET /reports/week/:weekId</div>
+                <h4>Result</h4>
+                <pre class="codefield">
+    {
+        "data": {
+        "week": 1,
+        "reportText": "npm run build, Run your tests, npm run test Lints and fixes files, npm run lint"
+        }
+    }
+        </pre>
+                <h4>Errors</h4>
+                <pre class="codefield">
+    {
+    "Following error occured": "Invalid token"
+    }           
+</pre>
+            </article>
+        </div>
+    </div>
+
+
+</body>
+<!-- <script type="text/javascript" src="js/main.js"></script> -->
+
+</html>

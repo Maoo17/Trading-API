@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+html {
+    background-color: rgb(209, 209, 217);
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(93, 93, 93);
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+}
+
+.header {
+    background-color: rgb(53, 53, 53);
+    width: 100%;
+    height: 5em;
+    border-bottom: 4px solid rgb(104, 69, 145);
+}
+
+.logo {
+    margin-left: 1em;
+    margin-top: 0.5em;
+    width: 60px;
+    height: 60px;
+}
+
+nav {
+    background-color:  rgb(27, 31, 51);
+    min-height: 37.5em;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.header-title {
+    margin-left: 1em;
+    color: white;
+}
+
+.pawspicture {
+    width: 68px;
+    height: 75px;
+    margin-left: 1em;
+}
+
+.article {
+    margin: 2%;
+}
+
+
+.vertical-menu {
+    width: 200px;
+}
+
+.vertical-menu a {
+    color: aliceblue;
+    display: block; 
+    padding: 12px; 
+}
+
+.vertical-menu a:hover {
+    color: rgb(19, 176, 223);
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.codefield {
+    background-color: rgb(197, 177, 235);
+    border-left: 6px solid rgb(115, 23, 152);
+    padding: 1%;
+    margin-top: 0.5em;
+    margin-right: 5%;
+    min-height: 3em;
+    color: black;
+    margin-bottom: 2%;
+}
+
+.routefield {
+    background-color: rgb(177, 182, 235);
+    border-left: 6px solid rgb(23, 140, 152);
+    padding: 1%;
+    margin-top: 0.5em;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    color: black;
+}
+
+.bottom-space {
+    margin-bottom: 5em;
+}
+
+h3 {
+    margin-top: 2em;
+}
+
+h1 {
+    margin-top: 3em;
+}
+
+.borderline {
+    border-bottom: 4px solid rgb(109, 87, 168);
+}
+
+.following-nav {
+    position: fixed;
+}
+
+.head-title {
+    margin: 0;
+    margin-bottom: 1em;
+}
+
+.top {
+    margin-left: 1em;
+    margin-top: 37vh;
+}
+
+.top-image {
+    width: 150px;
+
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(139, 98, 155);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -5px;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
