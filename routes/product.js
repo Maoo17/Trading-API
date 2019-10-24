@@ -20,88 +20,158 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/all/:ownerId/', (req, res) => {
+    const ownerId = req.params.ownerId;
 
-router.post(
-    '/',
-    (req, res, next) => authentication.checkToken(req, res, next),
-    (req, res) => {
-        const { owner, title, imgurl, amount, price } = req.body;
+    db.all('SELECT * FROM deposit WHERE ownerId="' + ownerId + '";', (err, rows) => {
 
-        db.run(
-            'INSERT INTO product (owner, title, amount, price) VALUES (?, ?, ?, ?);',
-            owner,
-            title,
-            imgurl,
-            amount,
-            price,
-            err => {
+        if (err) {
+            console.log(err);
+            res.json({
+                status: 401,
+                msg: err,
+            });
+        } else {
+            res.json({
+                status: 200,
+                data: rows,
+            });
+        }
+    });
+});
+
+router.get('/:ownerId', (req, res) => {
+    let allProducts = [];
+
+    const ownerId = req.params.ownerId;
+
+    db.all('SELECT * FROM deposit WHERE ownerId="' + ownerId + '";', (err, rows) => {
+
+        if (err) {
+            console.log(err);
+            res.json({
+                status: 401,
+                msg: err,
+            });
+        } else {
+            rows.forEach(item => {
+                allProducts.push(item.productId);
+            });
+
+            let inClause = allProducts.toString().replace(",", ", ");
+
+            db.all('SELECT * FROM product WHERE id IN (' + inClause + ');', (err, rows) => {
                 if (err) {
+                    console.log(err);
                     res.json({
                         status: 401,
                         msg: err,
                     });
                 } else {
                     res.json({
-                        data: {
-                            status: 201,
-                            msg: 'Created product',
-                        },
+                        status: 200,
+                        data: rows,
                     });
                 }
-            }
-        );
-    }
-);
+            });
+        }
+    });
+});
 
-// router.put('/', (req, res) => {
-//     const { id,  } = req.body;
+router.put('/sell', (req, res) => {
+    const { email, depositId, balance, price } = req.body;
+    let newBalance = balance + price;
+    console.log(req.body);
 
-//     db.run(
-//       'UPDATE users SET balance = ? WHERE id = ?;',
-//       balance,
-//       id,
-//       err => {
-//         if (err) {
-//           res.json({
-//             data: {
-//               status: 400,
-//               error: 'User was not registered!',
-//               type: err,
-//             },
-//           });
-//         } else {
-//           res.json({
-//             data: {
-//               status: 202,
-//               message: 'Updated balance',
-//             },
-//           });
-//         }
-//       }
-//     );
-// });
 
-router.delete('/:id', (req, res) => {
-    const { id } = req.params;
 
     db.run(
-        'DELETE FROM product WHERE id = ?;',
-        id,
+        'UPDATE user SET balance = ? WHERE email = ?;',
+        newBalance,
+        email,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Update Error",
+                    },
+                });
+            } else {
+                db.run(
+                    'DELETE FROM deposit WHERE ownerId = ? AND depositId = ?;',
+                    email,
+                    depositId,
+                    err => {
+                        if (err) {
+                            console.log(err);
+                            res.json({
+                                data: {
+                                    status: 400,
+                                    error: err,
+                                    type: "Delete Error",
+                                },
+                            });
+                        } else {
+                            res.json({
+                                data: {
+                                    status: 200,
+                                    message: 'Product Sold',
+                                    balance: newBalance
+                                },
+                            });
+                        }
+                    }
+                );
+            }
+        }
+    );
+});
+
+router.post('/buy', (req, res) => {
+    const { email, productId, balance, price } = req.body;
+    let newBalance = balance - price;
+
+    db.run(
+        'INSERT INTO deposit (ownerId, productId) VALUES (?, ?);',
+        email,
+        productId,
         err => {
             if (err) {
                 res.json({
                     data: {
                         status: 400,
-                        error: err,
+                        error: 'Error',
+                        type: err,
                     },
                 });
             } else {
-                res.json({
-                    data: {
-                        status: 200,
-                        message: 'Product deleted',
-                    },
-                });
+                db.run(
+                    'UPDATE user SET balance = ? WHERE email = ?;',
+                    newBalance,
+                    email,
+                    err => {
+                        if (err) {
+                            console.log(err);
+                            res.json({
+                                data: {
+                                    status: 400,
+                                    error: err,
+                                },
+                            });
+                        } else {
+                            res.json({
+                                data: {
+                                    status: 202,
+                                    message: `Product bought by ${email}`,
+                                    balance: newBalance
+                                },
+                            });
+                        }
+                    }
+                );
             }
         }
     );
