@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS deposit;
 CREATE TABLE IF NOT EXISTS user (
@@ -15,6 +16,11 @@ CREATE TABLE IF NOT EXISTS deposit (
   depositId Integer primary key autoincrement,
   ownerId VARCHAR(255) NOT NULL,
   productId INT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS history (
+  email VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  price VARCHAR(255) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS product (
   id integer primary key autoincrement,

@@ -19,6 +19,7 @@ const server = http.createServer(app);
 const user = require('./routes/user');
 const auth = require('./routes/auth');
 const product = require('./routes/product');
+const history = require('./routes/history');
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.use('/users', user);
 app.use('/auth', auth);
 app.use('/products', product);
+app.use('/history', history);
 
 app.use(express.static('public'));
 

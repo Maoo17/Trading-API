@@ -78,8 +78,8 @@ router.get('/:ownerId', (req, res) => {
     });
 });
 
-router.put('/sell', (req, res) => {
-    const { email, depositId, balance, price } = req.body;
+router.put('/sell', (req, res, next) => {
+    let { email, balance, price } = req.body;
     let newBalance = balance + price;
 
     db.run(
@@ -96,40 +96,65 @@ router.put('/sell', (req, res) => {
                         type: "Update Error",
                     },
                 });
+            }
+            next()
+        }
+    );
+}, (req, res, next) => {
+    let { email, depositId } = req.body;
+
+    db.run(
+        'DELETE FROM deposit WHERE ownerId = ? AND depositId = ?;',
+        email,
+        depositId,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Delete Error",
+                    },
+                });
+            }
+            next()
+        }
+    );
+}, (req, res) => {
+    let { email, balance, price, depositId } = req.body;
+    let newBalance = balance + price;
+
+    db.run(
+        'INSERT INTO history (email, type, price) VALUES (?, ?, ?);',
+        email,
+        "Sell",
+        price,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Insert Error",
+                    },
+                });
             } else {
-                db.run(
-                    'DELETE FROM deposit WHERE ownerId = ? AND depositId = ?;',
-                    email,
-                    depositId,
-                    err => {
-                        if (err) {
-                            console.log(err);
-                            res.json({
-                                data: {
-                                    status: 400,
-                                    error: err,
-                                    type: "Delete Error",
-                                },
-                            });
-                        } else {
-                            res.json({
-                                data: {
-                                    status: 200,
-                                    message: 'Product Sold',
-                                    balance: newBalance
-                                },
-                            });
-                        }
-                    }
-                );
+                res.json({
+                    data: {
+                        status: 200,
+                        message: 'Product Sold',
+                        balance: newBalance
+                    },
+                });
             }
         }
     );
 });
 
-router.post('/buy', (req, res) => {
-    const { email, productId, balance, price } = req.body;
-    let newBalance = balance - price;
+router.post('/buy', (req, res, next) => {
+    const { email, productId } = req.body;
 
     db.run(
         'INSERT INTO deposit (ownerId, productId) VALUES (?, ?);',
@@ -144,34 +169,64 @@ router.post('/buy', (req, res) => {
                         type: err,
                     },
                 });
+            }
+            next();
+        }
+    );
+}, (req, res, next) => {
+    const { email, balance, price } = req.body;
+    let newBalance = balance - price;
+
+    db.run(
+        'UPDATE user SET balance = ? WHERE email = ?;',
+        newBalance,
+        email,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                    },
+                });
+            }
+            next();
+        }
+    );
+}, (req, res) => {
+    let { email, balance, price } = req.body;
+    let newBalance = balance - price;
+    let transactionPrice = `-${price}`;
+
+    db.run(
+        'INSERT INTO history (email, type, price) VALUES (?, ?, ?);',
+        email,
+        "Buy",
+        transactionPrice,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Insert Error",
+                    },
+                });
             } else {
-                db.run(
-                    'UPDATE user SET balance = ? WHERE email = ?;',
-                    newBalance,
-                    email,
-                    err => {
-                        if (err) {
-                            console.log(err);
-                            res.json({
-                                data: {
-                                    status: 400,
-                                    error: err,
-                                },
-                            });
-                        } else {
-                            res.json({
-                                data: {
-                                    status: 202,
-                                    message: `Product bought by ${email}`,
-                                    balance: newBalance
-                                },
-                            });
-                        }
-                    }
-                );
+                res.json({
+                    data: {
+                        status: 202,
+                        message: 'Product Bought',
+                        balance: newBalance
+                    },
+                });
             }
         }
     );
 });
+
+
 
 module.exports = router;

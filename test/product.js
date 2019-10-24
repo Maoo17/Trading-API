@@ -111,6 +111,7 @@ describe("Products", () => {
                 .put('/products/sell')
                 .send(data)
                 .end((err, res) => {
+                    console.log(res.body)
                     res.should.have.status(200);
                     res.body.data.message.should.be.equal('Product Sold');
                     res.body.data.balance.should.be.equal(60)
@@ -131,7 +132,7 @@ describe("Products", () => {
                 .send(data)
                 .end((err, res) => {
                     res.body.data.should.have.status(202);
-                    res.body.data.message.should.be.equal('Product bought by tests@gmail.com');
+                    res.body.data.message.should.be.equal('Product Bought');
                     res.body.data.balance.should.be.equal(0)
                     done();
                 });
