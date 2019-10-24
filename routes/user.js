@@ -20,10 +20,11 @@ router.get('/', (req, res) => {
 });
 
 
-router.get('/:id', (req, res) => {
+router.get('/:email', (req, res) => {
 
-  db.get('SELECT * FROM user WHERE id=' + req.params.id + ';', (err, row) => {
+  db.get('SELECT * FROM user WHERE email="' + req.params.email + '";', (err, row) => {
     if (err) {
+      console.log(err);
       res.json({
         status: 401,
         msg: err,
@@ -39,18 +40,23 @@ router.get('/:id', (req, res) => {
 
 
 router.put('/balance', (req, res) => {
-  let { id, balance } = req.body;
+  let { email, balance, current } = req.body;
+  console.log(current)
+  console.log(balance)
 
+  const added = parseInt(current) + parseInt(balance);
+  console.log(added)
   db.run(
-    'UPDATE user SET balance = ? WHERE id = ?;',
-    balance,
-    id,
+    'UPDATE user SET balance = ? WHERE email = ?;',
+    added,
+    email,
     err => {
       if (err) {
+        console.log(err)
         res.json({
           data: {
             status: 400,
-            error: 'User was not registered!',
+            error: 'Funds were not added',
             type: err,
           },
         });
@@ -59,6 +65,7 @@ router.put('/balance', (req, res) => {
           data: {
             status: 202,
             message: 'Updated balance',
+            newBalance: added
           },
         });
       }
