@@ -40,13 +40,13 @@ module.exports = {
           const payload = { email: inputEmail };
           const secret = process.env.JWT_SECRET;
           const userToken = jwt.sign(payload, secret, { expiresIn: '1h' });
-
-          res.json({
-            valid: true,
-            message: 'Login sucessfull!',
-            'x-access-token': userToken,
-            user: dbResult,
-          });
+          res.status(201).
+            send({
+              valid: true,
+              message: 'Login sucessfull!',
+              'x-access-token': userToken,
+              user: dbResult,
+            });
         } else {
           res.json({
             valid: false,
