@@ -1,5 +1,9 @@
-<br>
-<br>
+[![Build Status](https://travis-ci.org/Maoo17/Trading-API.svg?branch=master)](https://travis-ci.org/Maoo17/Trading-API) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Maoo17/Trading-API/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Maoo17/Trading-API/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/Maoo17/Trading-API/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Maoo17/Trading-API/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/Maoo17/Trading-API/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Maoo17/Trading-API/build-status/master)
+
+&nbsp;
+
+&nbsp;
+
 <div style="text-align:center">
 <img src="public/images/poketrade_purple.png" alt="drawing" width="100"/>
 </div>
