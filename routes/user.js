@@ -41,36 +41,42 @@ router.get('/:email', (req, res) => {
 
 router.put('/balance', (req, res) => {
   let { email, balance, current } = req.body;
-  console.log(current)
-  console.log(balance)
+  let added = parseInt(current) + parseInt(balance);
 
-  const added = parseInt(current) + parseInt(balance);
-  console.log(added)
-  db.run(
-    'UPDATE user SET balance = ? WHERE email = ?;',
-    added,
-    email,
-    err => {
-      if (err) {
-        console.log(err)
-        res.json({
-          data: {
-            status: 400,
-            error: 'Funds were not added',
-            type: err,
-          },
-        });
-      } else {
-        res.json({
-          data: {
-            status: 202,
-            message: 'Updated balance',
-            newBalance: added
-          },
-        });
+  if (!balance || !current) {
+    res.json({
+      data: {
+        status: 400,
+        message: 'Funds were not added',
+      },
+    });
+  } else {
+    db.run(
+      'UPDATE user SET balance = ? WHERE email = ?;',
+      added,
+      email,
+      err => {
+        if (err) {
+          console.log(err)
+          res.json({
+            data: {
+              status: 400,
+              message: 'Funds were not added',
+              type: err,
+            },
+          });
+        } else {
+          res.json({
+            data: {
+              status: 202,
+              message: 'Updated balance',
+              newBalance: added
+            },
+          });
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 

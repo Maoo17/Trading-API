@@ -81,9 +81,6 @@ router.get('/:ownerId', (req, res) => {
 router.put('/sell', (req, res) => {
     const { email, depositId, balance, price } = req.body;
     let newBalance = balance + price;
-    console.log(req.body);
-
-
 
     db.run(
         'UPDATE user SET balance = ? WHERE email = ?;',

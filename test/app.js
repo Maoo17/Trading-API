@@ -9,7 +9,6 @@ chai.should();
 
 describe("app", () => {
     describe("GET /", () => {
-        // Test to get all users
         it("Should get docs and show html", (done) => {
             chai.request(app)
                 .get('/')

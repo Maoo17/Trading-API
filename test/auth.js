@@ -21,18 +21,6 @@ describe("auth", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    // res.body.status.should.equal(200);
-                    done();
-                });
-        });
-
-        it("Should invalidate token", (done) => {
-            chai.request(app)
-                .post(`/auth/validatetoken/${testToken}`)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    // res.body.status.should.equal(401);
                     done();
                 });
         });

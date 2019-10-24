@@ -12,19 +12,19 @@ const db = require('../db/database.js');
 
 
 
-describe("reports", () => {
+describe("Rest Of Auth", () => {
     before(() => {
         return new Promise((resolve) => {
-            db.run("DELETE FROM users", (err) => {
+            db.run("DELETE FROM user", (err) => {
                 if (err) {
-                    console.log("Could not empty test DB table users", err.message);
+                    console.log("Could not empty test DB table user", err.message);
                 }
                 resolve();
             });
         });
     });
 
-    describe("POST /register", () => {
+    describe("POST /auth/register", () => {
         it("Should create a new user", (done) => {
             let user = {
                 firstName: "Testa",
@@ -35,7 +35,7 @@ describe("reports", () => {
             };
 
             chai.request(app)
-                .post(`/register`)
+                .post(`/auth/register`)
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -46,18 +46,18 @@ describe("reports", () => {
         });
     });
 
-    describe("POST /login", () => {
-        it("Should create a new user", (done) => {
+    describe("POST /auth/login", () => {
+        it("Should login the user test@test.se", (done) => {
             let user = {
                 email: "test@test.se",
                 password: "test"
             };
 
             chai.request(app)
-                .post(`/login`)
+                .post(`/auth/login`)
                 .send(user)
                 .end((err, res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.valid.should.equal(true);
                     done();
