@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS deposit (
 );
 CREATE TABLE IF NOT EXISTS history (
   email VARCHAR(255) NOT NULL,
+  note VARCHAR(255) NOT NULL,
   type VARCHAR(255) NOT NULL,
-  price VARCHAR(255) NOT NULL
+  price VARCHAR(255) NOT NULL,
+  occurred DATE
 );
 CREATE TABLE IF NOT EXISTS product (
   id integer primary key autoincrement,
@@ -29,13 +31,11 @@ CREATE TABLE IF NOT EXISTS product (
   rate FLOAT NOT NULL,
   variance FLOAT NOT NULL
 );
-INSERT INTO
-  deposit (ownerId, productId)
+INSERT INTO deposit (ownerId, productId)
 VALUES
   ("test@gmail.com", 1),
   ("test@gmail.com", 2);
-INSERT INTO
-  product (title, startingPrice, rate, variance)
+INSERT INTO product (title, startingPrice, rate, variance)
 VALUES
   ("Pikachu", 100, 1.001, 0.4),
   ("Mewto", 250, 1.005, 0.2),

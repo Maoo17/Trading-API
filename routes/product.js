@@ -122,14 +122,17 @@ router.put('/sell', (req, res, next) => {
         }
     );
 }, (req, res) => {
-    let { email, balance, price, depositId } = req.body;
+    let { email, balance, price, title } = req.body;
     let newBalance = balance + price;
+    let date = new Date();
 
     db.run(
-        'INSERT INTO history (email, type, price) VALUES (?, ?, ?);',
+        'INSERT INTO history (email, note, type, price, occurred) VALUES (?, ?, ?, ? , ?);',
         email,
-        "Sell",
+        title,
+        "Sold",
         price,
+        date,
         err => {
             if (err) {
                 console.log(err);
@@ -195,15 +198,18 @@ router.post('/buy', (req, res, next) => {
         }
     );
 }, (req, res) => {
-    let { email, balance, price } = req.body;
+    let { email, balance, price, title } = req.body;
     let newBalance = balance - price;
     let transactionPrice = `-${price}`;
+    let date = new Date().toString();
 
     db.run(
-        'INSERT INTO history (email, type, price) VALUES (?, ?, ?);',
+        'INSERT INTO history (email, note, type, price, occurred) VALUES (?, ?, ?, ? , ?);',
         email,
-        "Buy",
+        title,
+        "Bought",
         transactionPrice,
+        date,
         err => {
             if (err) {
                 console.log(err);
