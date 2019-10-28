@@ -104,7 +104,8 @@ describe("Products", () => {
                 email: "tests@gmail.com",
                 depositId: 1,
                 balance: 30,
-                price: 30
+                price: 30,
+                note: "pidgey"
             };
 
             chai.request(app)
@@ -124,7 +125,8 @@ describe("Products", () => {
                 email: "tests@gmail.com",
                 productId: 3,
                 balance: 30,
-                price: 30
+                price: 30,
+                note: "pidgey"
             };
 
             chai.request(app)
