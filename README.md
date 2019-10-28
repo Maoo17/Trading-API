@@ -61,6 +61,9 @@ This was used for the course and other courses at Webprogramming. It's also popu
 The tools I've chosen for the testing is Mocha, Chai and Istanbul. I chose these becuase I had used them in the earlier course assignments and I thought they were really good and easy to use. It was really fun to write the backend-tests because the tools made it easier to write them.
 
 #### Coverage
+I used Travis and Scrutinizer. I think these two testing tools are a good way to see exactly how the program is built and run.
+
 I feel like I wrote better tests than the previous framework website, but there were some areas where I realised I couldn't test them completley which was often the error res if a database error occured.
 
 Coverage wise I felt like it was ok for decent tests I made. I think I could've gone higher if I modified the code for some routes, but since it worked well and the tests were ok, I chose not to (I already made refactoring of the middleware before).
+
