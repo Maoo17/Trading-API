@@ -80,12 +80,35 @@ router.get('/:ownerId', (req, res) => {
 
 router.put('/sell', (req, res, next) => {
     let { email, balance, price } = req.body;
-    let newBalance = balance + price;
+    let newBalance = parseInt(balance) + parseInt(price);
 
     db.run(
         'UPDATE user SET balance = ? WHERE email = ?;',
         newBalance,
         email,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Update Error",
+                    },
+                });
+            }
+            next()
+        }
+    );
+}, (req, res, next) => {
+    let { price, productId } = req.body;
+    let calculationNumber = Math.round(parseInt(price) - parseInt(price) / 3);
+    let newPrice = calculationNumber >= 0 ? calculationNumber : parseInt(price);
+
+    db.run(
+        'UPDATE product SET startingPrice = ? WHERE id = ?;',
+        newPrice,
+        productId,
         err => {
             if (err) {
                 console.log(err);
@@ -123,7 +146,7 @@ router.put('/sell', (req, res, next) => {
     );
 }, (req, res) => {
     let { email, balance, price, title } = req.body;
-    let newBalance = balance + price;
+    let newBalance = parseInt(balance) + parseInt(price);
     let date = new Date();
 
     db.run(
@@ -178,7 +201,7 @@ router.post('/buy', (req, res, next) => {
     );
 }, (req, res, next) => {
     const { email, balance, price } = req.body;
-    let newBalance = balance - price;
+    let newBalance = parseInt(balance) - parseInt(price);
 
     db.run(
         'UPDATE user SET balance = ? WHERE email = ?;',
@@ -197,9 +220,32 @@ router.post('/buy', (req, res, next) => {
             next();
         }
     );
+}, (req, res, next) => {
+    let { price, productId } = req.body;
+    let calculationNumber = Math.round(parseInt(price) + parseInt(price) / 3);
+    let newPrice = calculationNumber >= 0 ? calculationNumber : parseInt(price);
+
+    db.run(
+        'UPDATE product SET startingPrice = ? WHERE id = ?;',
+        newPrice,
+        productId,
+        err => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    data: {
+                        status: 400,
+                        error: err,
+                        type: "Update Error",
+                    },
+                });
+            }
+            next()
+        }
+    );
 }, (req, res) => {
     let { email, balance, price, title } = req.body;
-    let newBalance = balance - price;
+    let newBalance = parseInt(balance) - parseInt(price);
     let transactionPrice = `-${price}`;
     let date = new Date().toString();
 

@@ -105,7 +105,8 @@ describe("Products", () => {
                 depositId: 1,
                 balance: 30,
                 price: 30,
-                title: "pidgey"
+                title: "pidgey",
+                productId: 3
             };
 
             chai.request(app)
@@ -126,7 +127,7 @@ describe("Products", () => {
                 productId: 3,
                 balance: 30,
                 price: 30,
-                title: "pidgey"
+                title: "pidgey",
             };
 
             chai.request(app)
